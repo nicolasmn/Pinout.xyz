@@ -12,6 +12,9 @@ $color-dark: #073642;
 $color-content-bg: #EBE6D3;
 
 $nav-bg: #5F8645;
+$nav-bg-flipped: #8e7746;
+
+$nav-flip-duration: .75s;
 
 $overlay-pin-bg: rgb(235, 230, 211);
 $overlay-pin-fg: #063541;
@@ -599,6 +602,64 @@ nav {
     background:$color-dark;
     top:80px;
 }
+
+
+/*
+Flip animation
+*/
+
+#leftcolumn {
+    position: relative;
+    perspective: 50cm;
+    perspective-origin: center;
+}
+
+#flip {
+    position: absolute;
+    top: 100%;
+    visibility: hidden;
+    width: 0;
+    height: 0;
+    margin: 0;
+}
+
+#flip-label {
+    position: absolute;
+    top: 100%;
+    z-index: 1;
+    margin: 10px;
+    
+    &:hover {
+        text-decoration: underline;
+    }
+    
+    &::before {
+        content: "↓";
+        display: inline-block;
+        margin-right: .5em;
+        
+        @at-root #flip:checked + & {
+            content: "↑";
+        }
+    }
+}
+
+#gpio {
+    transition: transform $nav-flip-duration, background 0s ($nav-flip-duration / 4);
+    
+    li {
+        transition: transform 0s ($nav-flip-duration / 4);
+    }
+    
+    #flip:checked ~ & {
+        background: $nav-bg-flipped;
+        
+        &, li {
+            transform: rotateX(-180deg);
+        }
+    }
+}
+
 
 .boards-page {
     nav {
